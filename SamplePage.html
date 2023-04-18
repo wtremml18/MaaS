@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XGBoost API Demo</title>
+  <script>
+    async function predict() {
+      // Get input data from the form. Expects Array
+      const inputData = [
+        {
+            "cyl": document.getElementById("cyl").value,
+            "disp": document.getElementById("disp").value,
+            // Add other input fields as needed
+        }
+        ];
+
+      // Send a POST request to the API
+      const response = await fetch("http://localhost:8080/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inputData),
+      });
+
+      // Display the prediction
+      const result = await response.json();
+      document.getElementById("prediction").innerText = "Predicted MPG: " + result.predictions;
+    }
+  </script>
+</head>
+<body>
+  <h1>XGBoost API Demo</h1>
+
+  <form onsubmit="event.preventDefault(); predict();">
+    <label for="cyl">Cylinders:</label>
+    <input type="number" id="cyl" required>
+    <br>
+    <label for="disp">Displacement
